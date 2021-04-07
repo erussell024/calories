@@ -20,7 +20,11 @@ crackers = 17.5 # 1 cracker
 burrito = 1000
 egg = 70
 
-food = [tmp, eggSand, whey, spicySand, strip, fry, cashewBar, mixedVeggie, beer, dirtyChai, crackers, burrito, egg]
+food = [
+    tmp, eggSand, whey, spicySand, strip, fry, 
+    cashewBar, mixedVeggie, beer, dirtyChai, 
+    crackers, burrito, egg
+    ]
 foodToday = []
 
 calDict = {
@@ -43,8 +47,8 @@ ingredientDict = {
     "Egg Sandwhich": "2x eggs | 4x bacon | 1x cheese | 1x cinnamon rasin bagel"
 }
 
-# Overwrites files of the same date | look for way to add 
-# numOf to the file
+# Overwrites files of the same date
+# look for way to add numOf to the file
 def writeFile(food):
     now = datetime.datetime.now()
     date = now.strftime("%m-%d-%Y")
@@ -53,7 +57,7 @@ def writeFile(food):
     f.write("\n")
     for item in food:
        f.write("%s\n" % item)
-    print("Output written to /storage/emulated/0/Python/Calories/calories.txt")
+    print("\nOutput written to /storage/emulated/0/Python/Calories/calories.txt")
     
 def menu():
     choice = input("""
@@ -71,7 +75,8 @@ Choose item:
 10. Crackers & Cheese
 11. Burrito
 12. Egg
-'n' To exit
+'a' To add misc calories
+'q' To exit
 > """)
     return choice
      
@@ -80,9 +85,14 @@ while True:
     choice = menu()
     
     # Exit condition
-    if choice == 'n':
+    if choice == 'q':
         break
                
+    # Add misc calories               
+    elif choice == 'a':
+        misc = int(input("Enter misc calories: "))
+        totalCals += misc
+        
     # Multiples of an option 
     elif choice == '2' or choice == '6' or choice == '8' or choice == '10' or choice == '12':
         numOf = int(input("How many: "))
