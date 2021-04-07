@@ -43,8 +43,8 @@ ingredientDict = {
     "Egg Sandwhich": "2x eggs | 4x bacon | 1x cheese | 1x cinnamon rasin bagel"
 }
 
-# Overwrites files of the same date | look for way to add 
-# numOf to the file
+# Overwrites files of the same date
+# look for way to add numOf to the file
 def writeFile(food):
     now = datetime.datetime.now()
     date = now.strftime("%m-%d-%Y")
