@@ -5,6 +5,7 @@ import datetime
 # Food
 totalCals = 0
 tmp = 0
+numOf = 1
 eggSand = 690
 whey = 110
 spicySand = 540
@@ -18,13 +19,12 @@ cheese = 80
 crackers = 17.5 # 1 cracker
 burrito = 1000
 egg = 70
-numOf = 1
 
 food = [tmp, eggSand, whey, spicySand, strip, fry, cashewBar, mixedVeggie, beer, dirtyChai, crackers, burrito, egg]
 foodToday = []
 
 calDict = {
-	"": "",
+    "": "",
     "Egg Sandwich": food[1],
     "Whey": food[2],
     "Spicy Chicken Deluxe": food[3],
@@ -53,9 +53,9 @@ def writeFile(food):
     f.write("\n")
     for item in food:
        f.write("%s\n" % item)
+    print("Output written to /storage/emulated/0/Python/Calories/calories.txt")
     
-while True:
-    #print("\nCalories: ", totalCals)
+def menu():
     choice = input("""
 Choose item: 
 0.  Calorie List
@@ -73,11 +73,17 @@ Choose item:
 12. Egg
 'n' To exit
 > """)
-
-    # Multiples of an option
-    choiceInt = int(choice)
+    return choice
+     
+while True:
+    print("\nCalories: ", totalCals)
+    choice = menu()
+    
+    # Exit condition
     if choice == 'n':
         break
+               
+    # Multiples of an option 
     elif choice == '2' or choice == '6' or choice == '8' or choice == '10' or choice == '12':
         numOf = int(input("How many: "))
         if choice == '2':
@@ -91,10 +97,9 @@ Choose item:
             totalCals += ((numOf * crackers) + (numCheese * cheese))
         if choice == '12':
             totalCals += (numOf * egg)
-        foodToday.append(list(calDict.keys())[choiceInt])
-        print("\nCalories: ", totalCals)
+        foodToday.append(list(calDict.keys())[int(choice)])
 		
-    # Print Calorie List
+    # Display Calorie List
     elif choice == '0':
         print("\nCalorie List: \n")
         print("Food".center(10), "Calories".rjust(23))
@@ -105,8 +110,7 @@ Choose item:
 
     # All other options
     else:
-        totalCals += food[choiceInt]
-        print("\nCalories: ", totalCals)
-        foodToday.append(list(calDict.keys())[choiceInt])
+        totalCals += food[int(choice)]
+        foodToday.append(list(calDict.keys())[int(choice)])
 		
 writeFile(foodToday)
