@@ -1,6 +1,7 @@
 import os
 import sys
 import datetime
+import csv
 
 # Food
 totalCals = 0
@@ -79,6 +80,26 @@ Choose item:
 'q' To exit
 > """)
     return choice
+     
+
+with open('/storage/emulated/0/Python/Food.txt') as csv_file:
+    csv_reader = csv.reader(csv_file, delimiter=',')
+    line_count = 0
+    for row in csv_reader:
+        if line_count == 0:
+            print(f'{"|".join(row)}')
+            print("".ljust(51, "-"))
+            line_count += 1
+        else:
+            print(f'{row[0]}'.ljust(22), "|", 
+            	     f'{row[1]}'.center(4), "|", 
+            	     f'{row[2]}'.center(2), "|",
+            	     f'{row[3]}'.center(2), "|",
+            	     f'{row[4]}'.center(2), "|",
+            	     f'{row[5]}'.center(3), "|",
+            	     "\n".ljust(52, "-"))
+            line_count += 1
+    print(f'Processed {line_count} lines.')
      
 while True:
     print("\nCalories: ", totalCals)
