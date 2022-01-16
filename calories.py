@@ -52,7 +52,7 @@ def writeFile(foodList):
     #file = open(r"C:\Users\eruss\Desktop\git\calories\{}_Calories.txt".format(date), "w")
 
     # File location for mobile
-    f=open("/storage/emulated/0/Python/Calories/{}_Calories.txt".format(date), "w")
+    file=open("/storage/emulated/0/Python/Calories/{}_Calories.txt".format(date), "w")
 
     file.write(str("Calories: {}\n".format(cals)))
     file.write(str("Protein: {}\n".format(p)))

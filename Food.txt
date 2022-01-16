@@ -1,0 +1,9 @@
+Food,Cal,P,F,C
+Oatmeal,850,33,40,61
+PB&J,530,19,35,58
+Quesadilla,450,0,0,0
+Omelette,560,57,314,2
+Chicken_Bites,500,0,0,0
+Protein_Shake,160,30,3,5
+Egg,70,0,0,0
+RiceCrispy,90,0,0,0
