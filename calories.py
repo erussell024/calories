@@ -1,126 +1,65 @@
-import os
-import sys
-import datetime
+import os, sys, datetime, csv
+import pandas as pd
 
-# Food
-totalCals = 0
-tmp = 0
-numOf = 1
-eggSand = 690
-whey = 110
-spicySand = 540
-strip = 410
-fry= 600
-cashewBar = 160
-mixedVeggie = 200 # With some butter
-beer = 150
-dirtyChai = 310
-cheese = 80
-crackers = 17.5 # 1 cracker
-burrito = 1000
-egg = 70
+cals, p, f, c = 0, 0, 0, 0
+foodList = []
+calDict = {}
 
-food = [
-    tmp, eggSand, whey, spicySand, strip, fry, 
-    cashewBar, mixedVeggie, beer, dirtyChai, 
-    crackers, burrito, egg
-    ]
-foodToday = []
+# Read in CSV - Desktop
+#csvList = pd.read_csv(r'C:\Users\eruss\Desktop\git\calories\Food.txt', header=0)
 
-calDict = {
-    "": "",
-    "Egg Sandwich": food[1],
-    "Whey": food[2],
-    "Spicy Chicken Deluxe": food[3],
-    "4ct Strip": food[4],
-    "Large Fry": food[5],
-    "Cashew Bar": food[6],
-    "Mixed Veggie w/butter": food[7],
-    "Beer": food[8],
-    "Dirty Chai": food[9],
-    "Cracker": food[10],
-    "Burrito": food[11],
-    "Egg": food[12]
-}
+# Read in CSV - Mobile
+csvList = pd.read_csv(r'/storage/emulated/0/Python/Food.txt', header=0)
 
-ingredientDict = {
-    "Egg Sandwhich": "2x eggs | 4x bacon | 1x cheese | 1x cinnamon rasin bagel"
-}
+# Populate calDict[index] = cals where index = num for user choice
+# calDict[index] = food, cals, p, f, c
+for index, row in csvList.iterrows():
+    calDict[str(index)] = [row[0], row[1], row[2], row[3], row[4]]
 
-# Overwrites files of the same date
-# look for way to add numOf to the file
-def writeFile(food):
-    now = datetime.datetime.now()
-    date = now.strftime("%m-%d-%Y")
-    f=open("/storage/emulated/0/Python/Calories/{}_Calories.txt".format(date), "w")
-    f.write(str("Calories: {}".format(totalCals)))
-    f.write("\n")
-    for item in food:
-       f.write("%s\n" % item)
-    print("\nOutput written to /storage/emulated/0/Python/Calories/calories.txt")
-    
 def menu():
-    choice = input("""
+    choice = str(input("""
 Choose item: 
-0.  Calorie List
-1.  Egg Sandwich
-2.  Whey
-3.  Spicy Chicken Deluxe
-4.  4ct Strip
-5.  Large Fry
-6.  Cashew Bar
-7.  Mixed Veggies w/butter
-8.  Beer
-9.  Dirty Chai
-10. Crackers & Cheese
-11. Burrito
-12. Egg
-'a' To add misc calories
-'q' To exit
-> """)
+> """))
     return choice
-     
+
 while True:
-    print("\nCalories: ", totalCals)
+    print(csvList)
+    print("\nCalories: ", cals)
     choice = menu()
-    
+
     # Exit condition
     if choice == 'q':
         break
-               
     # Add misc calories               
     elif choice == 'a':
         misc = int(input("Enter misc calories: "))
-        totalCals += misc
-        
-    # Multiples of an option 
-    elif choice == '2' or choice == '6' or choice == '8' or choice == '10' or choice == '12':
-        numOf = int(input("How many: "))
-        if choice == '2':
-            totalCals += (numOf * whey)
-        if choice == '6':
-            totalCals += (numOf * cashewBar)
-        if choice == '8':
-            totalCals += (numOf * beer)
-        if choice == '10':
-            numCheese = int(input("How many cheese: "))
-            totalCals += ((numOf * crackers) + (numCheese * cheese))
-        if choice == '12':
-            totalCals += (numOf * egg)
-        foodToday.append(list(calDict.keys())[int(choice)])
-		
-    # Display Calorie List
-    elif choice == '0':
-        print("\nCalorie List: \n")
-        print("Food".center(10), "Calories".rjust(23))
-        print("-".ljust(34, "-"))
-        for key, value in calDict.items():
-            print(key.ljust(25), "|", value, "\n-".ljust(35, "-"))
-        print()
-
+        cals += misc
     # All other options
     else:
-        totalCals += food[int(choice)]
-        foodToday.append(list(calDict.keys())[int(choice)])
-		
-writeFile(foodToday)
+        cals += calDict.get(str(choice))[1]
+        p += calDict.get(str(choice))[2]
+        f += calDict.get(str(choice))[3]
+        c += calDict.get(str(choice))[4]
+        foodList.append(calDict.get(str(choice))[0])
+
+# Write to file
+# Overwrites files of the same date
+def writeFile(foodList):
+    now = datetime.datetime.now()
+    date = now.strftime("%m-%d-%Y")
+
+    # File location for Desktop
+    #file = open(r"C:\Users\eruss\Desktop\git\calories\{}_Calories.txt".format(date), "w")
+
+    # File location for mobile
+    f=open("/storage/emulated/0/Python/Calories/{}_Calories.txt".format(date), "w")
+
+    file.write(str("Calories: {}\n".format(cals)))
+    file.write(str("Protein: {}\n".format(p)))
+    file.write(str("Fat: {}\n".format(f)))
+    file.write(str("Carbs: {}\n".format(c)))
+    for item in foodList:
+       file.write("%s\n" % item)
+    print("\nOutput written to /storage/emulated/0/Python/Calories/")
+
+writeFile(foodList)
